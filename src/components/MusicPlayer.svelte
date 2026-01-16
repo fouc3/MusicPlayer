@@ -1363,33 +1363,40 @@ onDestroy(() => {
 		{#if playerState.isExpanded}
 		<div class="expanded-player p-6" transition:slide={{ duration: 400, axis: 'y' }}>
 			<!-- 头部控制栏 -->
-			<div class="header flex items-center justify-between mb-6">
-				<div 
-					class="drag-handle flex items-center gap-2 cursor-move flex-1"
-					on:mousedown={handleDragStart}
-					role="button"
-					tabindex="0"
-					aria-label="拖拽音乐播放器"
-				>
-					<Icon icon="material-symbols:drag-indicator" class="text-[var(--btn-content)] text-lg" />
-					<h3 class="text-lg font-semibold text-[var(--deep-text)]">音乐播放器</h3>
-				</div>
-				<div class="header-controls flex items-center gap-2">
-					<button 
-						class="edge-btn btn-plain rounded-full w-8 h-8 flex items-center justify-center"
-						on:click={minimizeToEdge}
-						title="收回到边缘"
+			<div class="player-header border-b border-[var(--border)] p-4 pb-2">
+				<div class="header-top flex items-center justify-between">
+					<div 
+						class="header-left flex items-center gap-2 cursor-move flex-1 min-w-0"
+						on:mousedown={handleDragStart}
+						role="button"
+						tabindex="0"
+						aria-label="拖拽音乐播放器"
 					>
-						<Icon icon={musicConfig.layout === 'left' ? "material-symbols:keyboard-double-arrow-left" : "material-symbols:keyboard-double-arrow-right"} class="text-lg" />
-					</button>
-					<button 
-						class="collapse-btn btn-plain rounded-full w-8 h-8 flex items-center justify-center"
-						on:click={() => playerState.isExpanded = false}
-						title="收起播放器"
-					>
-						<Icon icon="material-symbols:expand-more" class="text-lg" />
-					</button>
+						<Icon icon="material-symbols:drag-indicator" class="text-[var(--btn-content)] text-lg flex-shrink-0" />
+						<h3 class="text-lg font-semibold text-[var(--deep-text)] truncate">音乐播放器</h3>
+					</div>
+					<div class="header-controls flex items-center gap-2 flex-shrink-0">
+						<button 
+							class="edge-btn btn-plain rounded-full w-8 h-8 flex items-center justify-center"
+							on:click={minimizeToEdge}
+							title="收回到边缘"
+						>
+							<Icon icon={musicConfig.layout === 'left' ? "material-symbols:keyboard-double-arrow-left" : "material-symbols:keyboard-double-arrow-right"} class="text-lg" />
+						</button>
+						<button 
+							class="collapse-btn btn-plain rounded-full w-8 h-8 flex items-center justify-center"
+							on:click={() => playerState.isExpanded = false}
+							title="收起播放器"
+						>
+							<Icon icon="material-symbols:expand-more" class="text-lg" />
+						</button>
+					</div>
 				</div>
+				{#if musicConfig.watermark}
+				<div class="watermark text-[10px] leading-tight opacity-50 select-none text-right mt-1 break-words text-[var(--deep-text)]">
+					{@html musicConfig.watermark}
+				</div>
+				{/if}
 			</div>
 			
 			<!-- 当前歌曲信息 -->

@@ -35,7 +35,8 @@
 }
 
 .music-player-container.dark,
-.dark .music-player-container {
+.dark .music-player-container,
+[data-theme='dark'] .music-player-container {
   --music-primary: oklch(0.75 0.14 var(--music-hue));
   --music-card-bg: rgba(35, 37, 41, 0.9);
   /* 半透明深色 */
