@@ -21,6 +21,7 @@ export interface MusicConfig {
     expandedHeight: number; // 展开状态高度 (px)
     layout: "left" | "right"; // 布局方向
     watermark?: string; // 自定义水印 (支持HTML)
+    startMinimizedMobile?: boolean; // 手机端是否默认最小化到边缘
 }
 
 // 从全局变量读取配置（Hexo 注入）
@@ -47,6 +48,7 @@ export const musicConfig: MusicConfig = {
     expandedHeight: globalConfig.expandedHeight || 600, // 默认展开高度600px
     layout: globalConfig.layout || "right", // 默认右下角
     watermark: globalConfig.watermark || "", // 默认无水印
+    startMinimizedMobile: globalConfig.startMinimizedMobile || false, // 默认手机端不最小化
 };
 
 export interface Song {

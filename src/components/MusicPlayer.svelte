@@ -1192,9 +1192,16 @@ onMount(async () => {
 
 	// 移动端启动自动收缩定时器
 	if (isMobile) {
-		startAutoCollapseTimer();
+		// 移动端默认处理
+		if (musicConfig.startMinimizedMobile) {
+			isMinimizedToEdge = true;
+		} else {
+			startAutoCollapseTimer();
+		}
+	} else {
+		// 桌面端处理
+		clearAutoCollapseTimer();
 	}
-
 	// 启动边界检查定时器
 	startBoundaryCheck();
 
