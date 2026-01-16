@@ -1204,7 +1204,7 @@ onDestroy(() => {
 	style="bottom: {playerPosition.y}px; right: {playerPosition.x}px;"
 >
 	<!-- 主播放器卡片 -->
-	<div class="music-player-card card-base shadow-2xl backdrop-blur-sm">
+	<div class="music-player-card card-base shadow-2xl backdrop-blur-sm" style="border-radius: {musicConfig.borderRadius}">
 		<!-- 最小化状态 -->
 		{#if !playerState.isExpanded}
 		<div 

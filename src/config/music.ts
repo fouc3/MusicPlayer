@@ -15,6 +15,7 @@ export interface MusicConfig {
     enableRepeat: boolean;
     defaultVolume: number;
     preloadPages: number; //预加载页数
+    borderRadius: string; // 圆角配置，例如: "0px" (棱角), "8px" (小圆角), "16px" (大圆角)
 }
 
 // 从全局变量读取配置（Hexo 注入）
@@ -35,6 +36,7 @@ export const musicConfig: MusicConfig = {
     enableRepeat: globalConfig.enableRepeat || false,
     defaultVolume: globalConfig.defaultVolume || 0.7,
     preloadPages: globalConfig.preloadPages || 10, // 预加载更多页面获取所有歌曲
+    borderRadius: globalConfig.borderRadius || "16px", // 默认圆角16px
 };
 
 export interface Song {
