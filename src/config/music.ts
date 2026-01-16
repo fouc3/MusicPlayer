@@ -16,6 +16,9 @@ export interface MusicConfig {
     defaultVolume: number;
     preloadPages: number; //预加载页数
     borderRadius: string; // 圆角配置，例如: "0px" (棱角), "8px" (小圆角), "16px" (大圆角)
+    miniWidth: number; // 收起状态宽度 (px)
+    expandedWidth: number; // 展开状态宽度 (px)
+    expandedHeight: number; // 展开状态高度 (px)
 }
 
 // 从全局变量读取配置（Hexo 注入）
@@ -37,6 +40,9 @@ export const musicConfig: MusicConfig = {
     defaultVolume: globalConfig.defaultVolume || 0.7,
     preloadPages: globalConfig.preloadPages || 10, // 预加载更多页面获取所有歌曲
     borderRadius: globalConfig.borderRadius || "16px", // 默认圆角16px
+    miniWidth: globalConfig.miniWidth || 280, // 默认收起宽度280px
+    expandedWidth: globalConfig.expandedWidth || 360, // 默认展开宽度360px
+    expandedHeight: globalConfig.expandedHeight || 600, // 默认展开高度600px
 };
 
 export interface Song {

@@ -601,8 +601,8 @@ function handleDragMove(event: MouseEvent) {
 	if (!isDragging) return;
 
 	// 获取播放器实际尺寸
-	const playerWidth = playerState.isExpanded ? 360 : 280;
-	const playerHeight = playerState.isExpanded ? 600 : 80;
+	const playerWidth = playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth;
+	const playerHeight = playerState.isExpanded ? musicConfig.expandedHeight : 80;
 
 	// 计算新位置（从右下角定位）
 	const newRightDistance =
@@ -761,8 +761,8 @@ function handleResize() {
 	isIOS = deviceInfo.isIOS;
 
 	// 确保播放器位置在屏幕范围内
-	const playerWidth = playerState.isExpanded ? 360 : 280;
-	const playerHeight = playerState.isExpanded ? 600 : 80;
+	const playerWidth = playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth;
+	const playerHeight = playerState.isExpanded ? musicConfig.expandedHeight : 80;
 
 	// 限制播放器位置不超出屏幕
 	playerPosition.x = Math.max(
@@ -909,8 +909,8 @@ function toggleExpanded() {
 function adjustPositionForExpanded() {
 	if (typeof window === "undefined") return;
 
-	const expandedWidth = 360;
-	const expandedHeight = 600;
+	const expandedWidth = musicConfig.expandedWidth;
+	const expandedHeight = musicConfig.expandedHeight;
 	const margin = 20; // 边距
 
 	// 获取安全显示区域
@@ -1000,8 +1000,8 @@ function ensurePlayerVisible() {
 function ensurePlayerInSafeBounds(reason = "边界检查") {
 	if (typeof window === "undefined" || isDragging) return;
 
-	const playerWidth = playerState.isExpanded ? 360 : 280;
-	const playerHeight = playerState.isExpanded ? 600 : 80;
+	const playerWidth = playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth;
+	const playerHeight = playerState.isExpanded ? musicConfig.expandedHeight : 80;
 
 	let needsAdjustment = false;
 	let newX = playerPosition.x;
@@ -1201,7 +1201,7 @@ onDestroy(() => {
 	class:ios={isIOS}
 	class:minimized-to-edge={isMinimizedToEdge}
 	class:auto-collapsed={isAutoCollapsed}
-	style="bottom: {playerPosition.y}px; right: {playerPosition.x}px;"
+	style="bottom: {playerPosition.y}px; right: {playerPosition.x}px; width: {playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth}px;"
 >
 	<!-- 主播放器卡片 -->
 	<div class="music-player-card card-base shadow-2xl backdrop-blur-sm" style="border-radius: {musicConfig.borderRadius}">
