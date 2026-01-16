@@ -604,17 +604,29 @@ function handleDragMove(event: MouseEvent) {
 	const playerWidth = playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth;
 	const playerHeight = playerState.isExpanded ? musicConfig.expandedHeight : 80;
 
-	// 计算新位置（从右下角定位）
-	const newRightDistance =
-		window.innerWidth - event.clientX + dragOffset.x - playerWidth;
+	// 计算新位置
+	if (musicConfig.layout === "left") {
+		// 左侧布局：x 为距左距离
+		const newLeftDistance = event.clientX - dragOffset.x;
+		// 限制在屏幕范围内
+		playerPosition.x = Math.max(
+			10,
+			Math.min(window.innerWidth - playerWidth - 10, newLeftDistance),
+		);
+	} else {
+		// 右侧布局：x 为距右距离
+		const newRightDistance =
+			window.innerWidth - event.clientX + dragOffset.x - playerWidth;
+		// 限制在屏幕范围内
+		playerPosition.x = Math.max(
+			10,
+			Math.min(window.innerWidth - playerWidth - 10, newRightDistance),
+		);
+	}
+
 	const newBottomDistance =
 		window.innerHeight - event.clientY + dragOffset.y - playerHeight;
 
-	// 限制在屏幕范围内
-	playerPosition.x = Math.max(
-		10,
-		Math.min(window.innerWidth - playerWidth - 10, newRightDistance),
-	);
 	playerPosition.y = Math.max(
 		10,
 		Math.min(window.innerHeight - playerHeight - 10, newBottomDistance),
@@ -915,9 +927,13 @@ function toggleExpanded() {
 				playerPosition.y = margin;
 			}
 			
-			// 5. 检查右侧边界
-			if (window.innerWidth - playerPosition.x < expandedWidth + margin) {
-				playerPosition.x = window.innerWidth - expandedWidth - margin;
+			// 5. 检查水平边界
+			const maxHorizontalDist = window.innerWidth - expandedWidth - margin;
+			if (playerPosition.x > maxHorizontalDist) {
+				playerPosition.x = maxHorizontalDist;
+			}
+			if (playerPosition.x < margin) {
+				playerPosition.x = margin;
 			}
 		}
 	}
@@ -1239,7 +1255,7 @@ onDestroy(() => {
 	class:ios={isIOS}
 	class:minimized-to-edge={isMinimizedToEdge}
 	class:auto-collapsed={isAutoCollapsed}
-	style="bottom: {playerPosition.y}px; right: {playerPosition.x}px; width: {playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth}px; height: {playerState.isExpanded ? musicConfig.expandedHeight : 80}px; transform-origin: bottom right;"
+	style="bottom: {playerPosition.y}px; {musicConfig.layout === 'left' ? 'left' : 'right'}: {playerPosition.x}px; width: {playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth}px; height: {playerState.isExpanded ? musicConfig.expandedHeight : 80}px; transform-origin: bottom {musicConfig.layout === 'left' ? 'left' : 'right'};"
 >
 	<!-- 主播放器卡片 -->
 	<div class="music-player-card card-base shadow-2xl backdrop-blur-sm" style="border-radius: {musicConfig.borderRadius}">
@@ -1364,7 +1380,7 @@ onDestroy(() => {
 						on:click={minimizeToEdge}
 						title="收回到边缘"
 					>
-						<Icon icon="material-symbols:keyboard-double-arrow-right" class="text-lg" />
+						<Icon icon={musicConfig.layout === 'left' ? "material-symbols:keyboard-double-arrow-left" : "material-symbols:keyboard-double-arrow-right"} class="text-lg" />
 					</button>
 					<button 
 						class="collapse-btn btn-plain rounded-full w-8 h-8 flex items-center justify-center"
@@ -1610,7 +1626,7 @@ onDestroy(() => {
 	<div 
 		class="edge-handle fixed z-50 cursor-pointer"
 		class:auto-collapsed-handle={isAutoCollapsed}
-		style="bottom: {playerPosition.y + 20}px; right: 0px;"
+		style="bottom: {playerPosition.y + 20}px; {musicConfig.layout === 'left' ? 'left' : 'right'}: 0px;"
 		on:click={expandFromEdge}
 		on:keydown={(e) => e.key === 'Enter' && expandFromEdge()}
 		role="button"
@@ -1619,7 +1635,7 @@ onDestroy(() => {
 	>
 		{#if isAutoCollapsed && playerState.currentSong}
 		<!-- 自动收缩模式：显示透明歌曲信息 -->
-		<div class="auto-collapsed-info bg-black/30 backdrop-blur-sm text-white p-3 rounded-l-lg shadow-lg border-l-2 border-[var(--primary)]">
+		<div class="auto-collapsed-info bg-black/30 backdrop-blur-sm text-white p-3 shadow-lg border-l-2 border-[var(--primary)] {musicConfig.layout === 'left' ? 'rounded-r-lg border-l-0 border-r-2' : 'rounded-l-lg'}">
 			<div class="song-info-compact">
 				<div class="song-title text-sm font-medium truncate max-w-[120px]">
 					{playerState.currentSong.name}
@@ -1638,7 +1654,7 @@ onDestroy(() => {
 		</div>
 		{:else}
 		<!-- 普通把手模式 -->
-		<div class="handle-tab bg-[var(--primary)] text-white p-2 rounded-l-lg shadow-lg">
+		<div class="handle-tab bg-[var(--primary)] text-white p-2 shadow-lg {musicConfig.layout === 'left' ? 'rounded-r-lg' : 'rounded-l-lg'}">
 			<Icon icon="material-symbols:music-note" class="text-lg" />
 		</div>
 		{/if}
