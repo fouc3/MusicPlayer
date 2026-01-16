@@ -1,32 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* 播放器所需的 CSS 变量定义 */
-:root {
-  --hue: 250;
-  --primary: oklch(0.70 0.14 var(--hue));
-  --card-bg: white;
-  --deep-text: oklch(0.25 0.02 var(--hue));
-  --btn-content: oklch(0.55 0.12 var(--hue));
-  --btn-regular-bg: oklch(0.95 0.025 var(--hue));
-  --btn-plain-bg-hover: oklch(0.95 0.025 var(--hue));
-  --btn-plain-bg-active: oklch(0.98 0.01 var(--hue));
-  --btn-hover-bg: oklch(0.9 0.05 var(--hue));
-  --line-divider: rgba(0, 0, 0, 0.08);
-  --selection-bg: oklch(0.90 0.05 var(--hue));
-  --scrollbar-bg: rgba(0, 0, 0, 0.4);
-  --scrollbar-bg-hover: rgba(0, 0, 0, 0.5);
+
+/* 播放器专属 CSS 变量定义 - 使用独立的命名空间避免冲突 */
+.music-player-container {
+  --music-hue: 250;
+  --music-primary: oklch(0.70 0.14 var(--music-hue));
+  --music-card-bg: rgba(255, 255, 255, 0.9);
+  /* 半透明白色 */
+  --music-deep-text: oklch(0.25 0.02 var(--music-hue));
+  --music-btn-content: oklch(0.55 0.12 var(--music-hue));
+  --music-btn-regular-bg: oklch(0.95 0.025 var(--music-hue));
+  --music-btn-plain-bg-hover: oklch(0.95 0.025 var(--music-hue));
+  --music-btn-plain-bg-active: oklch(0.98 0.01 var(--music-hue));
+  --music-btn-hover-bg: oklch(0.9 0.05 var(--music-hue));
+  --music-line-divider: rgba(0, 0, 0, 0.08);
+  --music-selection-bg: oklch(0.90 0.05 var(--music-hue));
+  --music-scrollbar-bg: rgba(0, 0, 0, 0.4);
+  --music-scrollbar-bg-hover: rgba(0, 0, 0, 0.5);
+
+  /* 映射到原变量名，仅在播放器内部生效 */
+  --primary: var(--music-primary);
+  --card-bg: var(--music-card-bg);
+  --deep-text: var(--music-deep-text);
+  --btn-content: var(--music-btn-content);
+  --btn-regular-bg: var(--music-btn-regular-bg);
+  --btn-plain-bg-hover: var(--music-btn-plain-bg-hover);
+  --btn-plain-bg-active: var(--music-btn-plain-bg-active);
+  --btn-hover-bg: var(--music-btn-hover-bg);
+  --line-divider: var(--music-line-divider);
+  --selection-bg: var(--music-selection-bg);
+  --scrollbar-bg: var(--music-scrollbar-bg);
+  --scrollbar-bg-hover: var(--music-scrollbar-bg-hover);
 }
-.dark {
-  --primary: oklch(0.75 0.14 var(--hue));
-  --card-bg: oklch(0.23 0.015 var(--hue));
-  --deep-text: #f9fafb;
-  --btn-content: oklch(0.75 0.1 var(--hue));
-  --btn-regular-bg: oklch(0.33 0.035 var(--hue));
-  --btn-plain-bg-hover: oklch(0.30 0.035 var(--hue));
-  --btn-plain-bg-active: oklch(0.27 0.025 var(--hue));
-  --line-divider: rgba(255, 255, 255, 0.08);
-  --selection-bg: oklch(0.40 0.08 var(--hue));
-  --scrollbar-bg: rgba(255, 255, 255, 0.4);
-  --scrollbar-bg-hover: rgba(255, 255, 255, 0.5);
+
+.music-player-container.dark,
+.dark .music-player-container {
+  --music-primary: oklch(0.75 0.14 var(--music-hue));
+  --music-card-bg: rgba(35, 37, 41, 0.9);
+  /* 半透明深色 */
+  --music-deep-text: #f9fafb;
+  --music-btn-content: oklch(0.75 0.1 var(--music-hue));
+  --music-btn-regular-bg: oklch(0.33 0.035 var(--music-hue));
+  --music-btn-plain-bg-hover: oklch(0.30 0.035 var(--music-hue));
+  --music-btn-plain-bg-active: oklch(0.27 0.025 var(--music-hue));
+  --music-line-divider: rgba(255, 255, 255, 0.08);
+  --music-selection-bg: oklch(0.40 0.08 var(--music-hue));
+  --music-scrollbar-bg: rgba(255, 255, 255, 0.4);
+  --music-scrollbar-bg-hover: rgba(255, 255, 255, 0.5);
 }
