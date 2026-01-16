@@ -882,13 +882,51 @@ function toggleExpanded() {
 	}
 
 	const wasExpanded = playerState.isExpanded;
-	playerState.isExpanded = !playerState.isExpanded;
+	const willBeExpanded = !playerState.isExpanded;
 
-	// 展开时智能调整位置，确保不超出屏幕
+	if (willBeExpanded && !wasExpanded) {
+		const expandedHeight = musicConfig.expandedHeight;
+		const expandedWidth = musicConfig.expandedWidth;
+		const margin = 20;
+
+		if (typeof window !== "undefined") {
+			// 1. 计算展开后的顶部位置 (距离屏幕底部)
+			// currentTopDistFromBottom = playerPosition.y + expandedHeight
+			let topDistFromBottom = playerPosition.y + expandedHeight;
+			
+			// 2. 计算屏幕允许的最大顶部位置
+			// maxTopDistFromBottom = window.innerHeight - margin
+			const maxTopDistFromBottom = window.innerHeight - margin;
+
+			// 3. 如果超出顶部边界，向下移动
+			if (topDistFromBottom > maxTopDistFromBottom) {
+				// 移动距离 = 超出量
+				const overflow = topDistFromBottom - maxTopDistFromBottom;
+				playerPosition.y -= overflow;
+				
+				// 再次检查底部边界，不要移出屏幕底部
+				if (playerPosition.y < margin) {
+					playerPosition.y = margin;
+				}
+			}
+			
+			// 4. 检查底部边界 (通常只有手动拖拽太低时才会触发)
+			if (playerPosition.y < margin) {
+				playerPosition.y = margin;
+			}
+			
+			// 5. 检查右侧边界
+			if (window.innerWidth - playerPosition.x < expandedWidth + margin) {
+				playerPosition.x = window.innerWidth - expandedWidth - margin;
+			}
+		}
+	}
+
+	playerState.isExpanded = willBeExpanded;
+
 	if (playerState.isExpanded && !wasExpanded) {
-		// 强制确保播放器在可见区域内
 		ensurePlayerVisible();
-		adjustPositionForExpanded();
+		// 移除 adjustPositionForExpanded，使用上面的直接逻辑
 		clearAutoCollapseTimer();
 	} else if (!playerState.isExpanded && isMobile) {
 		startAutoCollapseTimer();
@@ -1201,7 +1239,7 @@ onDestroy(() => {
 	class:ios={isIOS}
 	class:minimized-to-edge={isMinimizedToEdge}
 	class:auto-collapsed={isAutoCollapsed}
-	style="bottom: {playerPosition.y}px; right: {playerPosition.x}px; width: {playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth}px;"
+	style="bottom: {playerPosition.y}px; right: {playerPosition.x}px; width: {playerState.isExpanded ? musicConfig.expandedWidth : musicConfig.miniWidth}px; height: {playerState.isExpanded ? musicConfig.expandedHeight : 80}px; transform-origin: bottom right;"
 >
 	<!-- 主播放器卡片 -->
 	<div class="music-player-card card-base shadow-2xl backdrop-blur-sm" style="border-radius: {musicConfig.borderRadius}">
