@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* 播放器所需的 CSS 变量定义 */
+:root {
+  --hue: 250;
+  --primary: oklch(0.70 0.14 var(--hue));
+  --card-bg: white;
+  --deep-text: oklch(0.25 0.02 var(--hue));
+  --btn-content: oklch(0.55 0.12 var(--hue));
+  --btn-regular-bg: oklch(0.95 0.025 var(--hue));
+  --btn-plain-bg-hover: oklch(0.95 0.025 var(--hue));
+  --btn-plain-bg-active: oklch(0.98 0.01 var(--hue));
+  --btn-hover-bg: oklch(0.9 0.05 var(--hue));
+  --line-divider: rgba(0, 0, 0, 0.08);
+  --selection-bg: oklch(0.90 0.05 var(--hue));
+  --scrollbar-bg: rgba(0, 0, 0, 0.4);
+  --scrollbar-bg-hover: rgba(0, 0, 0, 0.5);
+}
+.dark {
+  --primary: oklch(0.75 0.14 var(--hue));
+  --card-bg: oklch(0.23 0.015 var(--hue));
+  --deep-text: #f9fafb;
+  --btn-content: oklch(0.75 0.1 var(--hue));
+  --btn-regular-bg: oklch(0.33 0.035 var(--hue));
+  --btn-plain-bg-hover: oklch(0.30 0.035 var(--hue));
+  --btn-plain-bg-active: oklch(0.27 0.025 var(--hue));
+  --line-divider: rgba(255, 255, 255, 0.08);
+  --selection-bg: oklch(0.40 0.08 var(--hue));
+  --scrollbar-bg: rgba(255, 255, 255, 0.4);
+  --scrollbar-bg-hover: rgba(255, 255, 255, 0.5);
+}
